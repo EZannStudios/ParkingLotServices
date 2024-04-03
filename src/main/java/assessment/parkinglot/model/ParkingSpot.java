@@ -9,8 +9,17 @@ public class ParkingSpot {
     private Long id;
     private String type;
     private boolean occupied;
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id")
+    private VehicleEntity vehicle;
 
-    private long vehicleId;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public ParkingSpot() {};
 
@@ -34,11 +43,11 @@ public class ParkingSpot {
         this.occupied = occupied;
     }
 
-    public long getVehicleId() {
-        return vehicleId;
+    public VehicleEntity getVehicle() {
+        return vehicle;
     }
 
-    public void setVehicleId(long vehicleId) {
-        this.vehicleId = vehicleId;
+    public void setVehicle(VehicleEntity vehicle) {
+        this.vehicle = vehicle;
     }
 }

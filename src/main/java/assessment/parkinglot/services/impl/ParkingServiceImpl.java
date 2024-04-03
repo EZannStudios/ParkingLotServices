@@ -26,15 +26,15 @@ public class ParkingServiceImpl implements IParkingService {
     public boolean parkVehicle(Vehicle vehicle) {
         List<ParkingSpot> availableSpots = getSpotTypeForVehicle(vehicle);
         if (!availableSpots.isEmpty()) {
-            List<ParkingSpot> spotsTaken = new ArrayList<>();
-            VehicleEntity vehicleEntity = vehicleRepository.save(
-                    new VehicleEntity(vehicle.getType()));
+            VehicleEntity vehicleEntity = vehicleRepository.save(new VehicleEntity(vehicle.getType()));
+
             for (int i = 0; i < vehicle.getSpotsNeeded(); i++) {
-                availableSpots.get(i).setOccupied(true);
-                availableSpots.get(i).setVehicleId(vehicleEntity.getId());
-                spotsTaken.add(availableSpots.get(i));
+                ParkingSpot parkingSpot = availableSpots.get(i);
+                parkingSpot.setOccupied(true);
+                parkingSpot.setVehicle(vehicleEntity);
             }
-            parkingSpotRepository.saveAll(spotsTaken);
+
+            parkingSpotRepository.saveAll(availableSpots);
             return true;
         }
         return false;
@@ -45,6 +45,7 @@ public class ParkingServiceImpl implements IParkingService {
         List<ParkingSpot> parkingSpots = parkingSpotRepository.findByVehicleId(vehicleId);
         for (ParkingSpot spot : parkingSpots) {
             spot.setOccupied(false);
+            spot.setVehicle(null);
             parkingSpotRepository.save(spot);
         }
         vehicleRepository.deleteById(vehicleId);
