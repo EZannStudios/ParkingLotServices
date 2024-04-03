@@ -1,7 +1,7 @@
 package assessment.parkinglot.controllers;
 
 import assessment.parkinglot.model.VehicleEntity;
-import assessment.parkinglot.services.ParkingService;
+import assessment.parkinglot.services.IParkingService;
 import assessment.parkinglot.utils.VehicleFactory;
 import assessment.parkinglot.utils.VehicleTypes;
 import assessment.parkinglot.vehicles.Car;
@@ -28,7 +28,7 @@ class ParkingControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ParkingService parkingService;
+    private IParkingService parkingService;
 
     @MockBean
     private VehicleFactory vehicleFactory;

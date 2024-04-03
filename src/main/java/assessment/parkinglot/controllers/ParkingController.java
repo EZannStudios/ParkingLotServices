@@ -1,7 +1,7 @@
 package assessment.parkinglot.controllers;
 
 import assessment.parkinglot.model.VehicleEntity;
-import assessment.parkinglot.services.ParkingService;
+import assessment.parkinglot.services.IParkingService;
 import assessment.parkinglot.utils.Spots;
 import assessment.parkinglot.utils.VehicleFactory;
 import assessment.parkinglot.utils.VehicleTypes;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/parkingLot")
 public class ParkingController {
     @Autowired
-    private ParkingService parkingService;
+    private IParkingService parkingService;
 
     @Autowired
     private VehicleFactory vehicleFactory;
@@ -41,7 +41,7 @@ public class ParkingController {
     @PostMapping("/leave/{id}")
     public ResponseEntity<String> vehicleLeavesParkingLot(@PathVariable Long id) {
         Optional<VehicleEntity> vehicleModel = parkingService.findVehiclesById(id);
-        if (!vehicleModel.isPresent()) {
+        if (vehicleModel.isEmpty()) {
             return ResponseEntity.badRequest().body("Vehicle with id: " + id + " not found");
         } else {
             parkingService.vehicleLeavesParkingLot(id);
@@ -76,10 +76,10 @@ public class ParkingController {
     public ResponseEntity<String> findAllParkedVehicles() {
         List<VehicleEntity> vehicleEntities = new ArrayList<>();
         parkingService.findAllParkedVehicles().forEach(vehicleEntities::add);
-        if (vehicleEntities != null && !vehicleEntities.isEmpty()) {
+        if (!vehicleEntities.isEmpty()) {
             List<String> vehicleTypes = vehicleEntities.stream()
                     .map(VehicleEntity::getType)
-                    .collect(Collectors.toList());
+                    .toList();
 
             return ResponseEntity.ok(vehicleTypes.toString());
         } else {

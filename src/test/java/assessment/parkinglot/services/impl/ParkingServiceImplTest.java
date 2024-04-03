@@ -1,4 +1,4 @@
-package assessment.parkinglot.services;
+package assessment.parkinglot.services.impl;
 
 import assessment.parkinglot.model.ParkingSpot;
 import assessment.parkinglot.model.VehicleEntity;
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class ParkingServiceTest {
+public class ParkingServiceImplTest {
 
     @Mock
     private ParkingSpotRepository parkingSpotRepository;
@@ -34,7 +34,7 @@ public class ParkingServiceTest {
     private VehicleEntity vehicleEntity;
 
     @InjectMocks
-    private ParkingService parkingService;
+    private ParkingServiceImpl parkingService;
 
     @Test
     void testParkVehicle() {
